@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Mobile application developed by Mulisa Lemesa",
   "main": "node_modules/expo/AppEntry.js",
-  "author": "Mulisa Lemesa",
+  "author": "MulisaLemesa",
   "license": "MIT",
   "scripts": {
     "start": "expo start",
