@@ -5,13 +5,11 @@ import {
   StyleSheet,
   Pressable,
   Animated,
-  ImageBackground,
   Dimensions,
 } from "react-native";
 import { useRouter } from "expo-router";
 
 const { width, height } = Dimensions.get("window");
-const BG_IMAGE = require("@/assets/images/lakk.png");
 
 const QubeeKG = () => {
   const router = useRouter();
@@ -30,7 +28,7 @@ const QubeeKG = () => {
 
   useEffect(() => {
     const triggerNextSlide = () => {
-      // Phase 1: Exit (Fade and Slide Up)
+      // Phase 1: Exit
       Animated.parallel([
         Animated.timing(fadeAnim, {
           toValue: 0,
@@ -44,11 +42,9 @@ const QubeeKG = () => {
         }),
       ]).start(() => {
         setIndex((prev) => (prev + 1) % slides.length);
-
-        // Phase 2: Reset position (Start from below)
         slideAnim.setValue(30);
 
-        // Phase 3: Entrance (Fade and Slide to Center)
+        // Phase 2: Entrance
         Animated.parallel([
           Animated.timing(fadeAnim, {
             toValue: 1,
@@ -72,61 +68,61 @@ const QubeeKG = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={BG_IMAGE} style={styles.bg} resizeMode="cover">
-        <View style={styles.overlay}>
-          {/* TOP WELCOME TEXT */}
-          <View style={styles.centerBox}>
-            <Text style={styles.welcomeText}>Baga Nagaan Dhufte!</Text>
-          </View>
-
-          {/* ANIMATED FLOATING TEXT (No Container) */}
-          <Animated.View
-            style={[
-              styles.textWrapper,
-              { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
-            ]}
-          >
-            <Text style={styles.floatingEmoji}>{currentItem.emoji}</Text>
-            <Text style={styles.floatingOr}>{currentItem.or}</Text>
-            <Text style={styles.floatingEn}>{currentItem.en}</Text>
-          </Animated.View>
-
-          {/* HOME BUTTON */}
-          <View style={styles.homeSection}>
-            <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-              <Pressable
-                style={styles.homeCircle}
-                onPress={() => router.back()}
-              >
-                <Text style={styles.homeIcon}>🏠</Text>
-              </Pressable>
-            </Animated.View>
-            <Text style={styles.manaText}>MANA</Text>
-          </View>
+      <View style={styles.overlay}>
+        {/* TOP WELCOME TEXT */}
+        <View style={styles.centerBox}>
+          <Text style={styles.welcomeText}>Baga Nagaan Dhufte!</Text>
         </View>
-      </ImageBackground>
+
+        {/* ANIMATED FLOATING TEXT */}
+        <Animated.View
+          style={[
+            styles.textWrapper,
+            { opacity: fadeAnim, transform: [{ translateY: slideAnim }] },
+          ]}
+        >
+          <Text style={styles.floatingEmoji}>{currentItem.emoji}</Text>
+          <Text style={styles.floatingOr}>{currentItem.or}</Text>
+          <Text style={styles.floatingEn}>{currentItem.en}</Text>
+        </Animated.View>
+
+        {/* HOME BUTTON */}
+        <View style={styles.homeSection}>
+          <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+            <Pressable
+              style={styles.homeCircle}
+              onPress={() => router.push("/")}
+            >
+              <Text style={styles.homeIcon}>🏠</Text>
+            </Pressable>
+          </Animated.View>
+          <Text style={styles.manaText}>Home</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  bg: { width: width, height: height },
+  container: {
+    flex: 1,
+    backgroundColor: "#2d5a27", // Dark green background instead of image
+  },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.2)", // Lighter overlay to see background better
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 60,
   },
   centerBox: { marginTop: 20 },
   welcomeText: {
-    fontSize: 80,
+    fontSize: 40, // Scaled down slightly to fit more screens
     fontWeight: "900",
     color: "white",
-    textShadowColor: "rgba(0, 0, 0, 0.75)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 5,
   },
   textWrapper: {
     alignItems: "center",
@@ -134,15 +130,13 @@ const styles = StyleSheet.create({
     width: width,
   },
   floatingEmoji: {
-    fontSize: 140,
+    fontSize: 100,
     marginBottom: 10,
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
   },
   floatingOr: {
-    fontSize: 100,
+    fontSize: 60,
     fontWeight: "900",
-    color: "#FFD32A", // Bright Oromo Yellow
+    color: "#FFD32A",
     textAlign: "center",
     textShadowColor: "black",
     textShadowRadius: 5,
@@ -153,22 +147,26 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
     marginTop: 5,
-    textShadowColor: "black",
-    textShadowRadius: 3,
   },
   homeSection: { alignItems: "center" },
   homeCircle: {
-    width: 120,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 45,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 4,
     borderColor: "#4CD137",
+    elevation: 5,
   },
-  homeIcon: { fontSize: 45 },
-  manaText: { marginTop: 8, fontSize: 20, fontWeight: "900", color: "white" },
+  homeIcon: { fontSize: 40 },
+  manaText: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: "900",
+    color: "white",
+  },
 });
 
 export default QubeeKG;
