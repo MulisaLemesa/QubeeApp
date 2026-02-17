@@ -93,10 +93,10 @@ const QubeeKG = () => {
               style={styles.homeCircle}
               onPress={() => router.push("/")}
             >
-              <Text style={styles.homeIcon}>🏠</Text>
+              <Text style={styles.homeIcon}></Text>
             </Pressable>
           </Animated.View>
-          <Text style={styles.manaText}>Home</Text>
+          <Text style={styles.manaText}></Text>
         </View>
       </View>
     </View>
@@ -106,7 +106,7 @@ const QubeeKG = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2d5a27", // Dark green background instead of image
+    backgroundColor: "green", // Dark green background instead of image
   },
   overlay: {
     flex: 1,
