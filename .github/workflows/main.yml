@@ -1,0 +1,29 @@
+name: Build and Rename APK
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Android
+        run: |
+          cd app/android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Rename and Upload
+        run: |
+          chmod +x ./app/rename_apk.sh
+          # This runs your script using the correct paths
+          ./app/rename_apk.sh QubeeApp app/android/app/build/outputs/apk/release ./app/pubspec.yaml
+        shell: bash
+
+      - name: Save APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyFinishedApp
+          path: app/android/app/build/outputs/apk/release/*.apk
